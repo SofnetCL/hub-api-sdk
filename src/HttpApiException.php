@@ -4,7 +4,7 @@ namespace HubSdk;
 
 use Exception;
 
-class HubApiException extends Exception
+class HttpApiException extends Exception
 {
     protected int $httpStatusCode;
 

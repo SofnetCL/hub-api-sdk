@@ -35,7 +35,7 @@ class HttpApiClient
             ]);
 
             if ($response->getStatusCode() !== 200) {
-                throw new HubApiException(
+                throw new HttpApiException(
                     "API GET ERROR: response was not 200, was: " . $response->getStatusCode(),
                     $response->getStatusCode()
                 );
@@ -43,7 +43,7 @@ class HttpApiClient
 
             return json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $e) {
-            throw new HubApiException("Error en la API GET: " . $e->getMessage(), $e->getResponse()->getStatusCode());
+            throw new HttpApiException("Error en la API GET: " . $e->getMessage(), $e->getResponse()->getStatusCode());
         }
     }
 
@@ -56,7 +56,7 @@ class HttpApiClient
             ]);
 
             if ($response->getStatusCode() !== 201 && $response->getStatusCode() !== 200) {
-                throw new HubApiException(
+                throw new HttpApiException(
                     "API POST ERROR: response was not 201 or 200, was: " . $response->getStatusCode(),
                     $response->getStatusCode()
                 );
@@ -64,7 +64,7 @@ class HttpApiClient
 
             return json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $e) {
-            throw new HubApiException("Error en la API POST: " . $e->getMessage(), $e->getResponse()->getStatusCode());
+            throw new HttpApiException("Error en la API POST: " . $e->getMessage(), $e->getResponse()->getStatusCode());
         }
     }
 
@@ -77,7 +77,7 @@ class HttpApiClient
             ]);
 
             if ($response->getStatusCode() !== 200 && $response->getStatusCode() !== 204) {
-                throw new HubApiException(
+                throw new HttpApiException(
                     "API PUT ERROR: response was not 200 or 204, was: " . $response->getStatusCode(),
                     $response->getStatusCode()
                 );
@@ -85,7 +85,7 @@ class HttpApiClient
 
             return json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $e) {
-            throw new HubApiException("Error en la API PUT: " . $e->getMessage(), $e->getResponse()->getStatusCode());
+            throw new HttpApiException("Error en la API PUT: " . $e->getMessage(), $e->getResponse()->getStatusCode());
         }
     }
 
@@ -97,7 +97,7 @@ class HttpApiClient
             ]);
 
             if ($response->getStatusCode() !== 204) {
-                throw new HubApiException(
+                throw new HttpApiException(
                     "API DELETE ERROR: response was not 204, was: " . $response->getStatusCode(),
                     $response->getStatusCode()
                 );
@@ -105,7 +105,7 @@ class HttpApiClient
 
             return json_decode($response->getBody()->getContents(), true);
         } catch (RequestException $e) {
-            throw new HubApiException("Error en la API DELETE: " . $e->getMessage(), $e->getResponse()->getStatusCode());
+            throw new HttpApiException("Error en la API DELETE: " . $e->getMessage(), $e->getResponse()->getStatusCode());
         }
     }
 
