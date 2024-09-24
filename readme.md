@@ -26,7 +26,7 @@ Para incluir este proyecto en otro proyecto utilizando Composer, sigue los sigui
        }
      ],
      "require": {
-       "sofnetcl/hub-api-sdk": "main"
+       "sofnetcl/hub-api-sdk": "dev-main"
      }
    }
    ```
