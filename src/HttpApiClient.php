@@ -27,7 +27,10 @@ class HttpApiClient
             ]);
 
             if ($response->getStatusCode() !== 200) {
-                throw new HubApiException("Error en la API GET: respuesta no fue 200", $response->getStatusCode());
+                throw new HubApiException(
+                    "API GET ERROR: response was not 200, was: " . $response->getStatusCode(),
+                    $response->getStatusCode()
+                );
             }
 
             return json_decode($response->getBody()->getContents(), true);
@@ -45,7 +48,10 @@ class HttpApiClient
             ]);
 
             if ($response->getStatusCode() !== 201) {
-                throw new HubApiException("Error en la API POST: respuesta no fue 201", $response->getStatusCode());
+                throw new HubApiException(
+                    "API POST ERROR: response was not 201, was: " . $response->getStatusCode(),
+                    $response->getStatusCode()
+                );
             }
 
             return json_decode($response->getBody()->getContents(), true);
@@ -63,7 +69,10 @@ class HttpApiClient
             ]);
 
             if ($response->getStatusCode() !== 200 && $response->getStatusCode() !== 204) {
-                throw new HubApiException("Error en la API PUT: respuesta no fue 200 o 204", $response->getStatusCode());
+                throw new HubApiException(
+                    "API PUT ERROR: response was not 200 or 204, was: " . $response->getStatusCode(),
+                    $response->getStatusCode()
+                );
             }
 
             return json_decode($response->getBody()->getContents(), true);
@@ -80,7 +89,10 @@ class HttpApiClient
             ]);
 
             if ($response->getStatusCode() !== 204) {
-                throw new HubApiException("Error en la API DELETE: respuesta no fue 204", $response->getStatusCode());
+                throw new HubApiException(
+                    "API DELETE ERROR: response was not 204, was: " . $response->getStatusCode(),
+                    $response->getStatusCode()
+                );
             }
 
             return json_decode($response->getBody()->getContents(), true);
