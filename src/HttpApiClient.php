@@ -7,15 +7,23 @@ use GuzzleHttp\Exception\RequestException;
 
 class HttpApiClient
 {
-    protected string $apiKey;
-    protected string $apiUrl;
+    protected array $headers = [];
     protected Client $httpClient;
+    protected string $baseUrl;
 
-    public function __construct(string $apiKey, string $apiUrl)
+    public function __construct(?Client $httpClient = null)
     {
-        $this->apiKey = $apiKey;
-        $this->apiUrl = $apiUrl;
-        $this->httpClient = new Client();
+        $this->httpClient = $httpClient ?? new Client();
+    }
+
+    public function setHeaders(array $headers): void
+    {
+        $this->headers = $headers;
+    }
+
+    public function setBaseUrl(string $baseUrl): void
+    {
+        $this->baseUrl = $baseUrl;
     }
 
     public function get(string $endpoint, array $queryParams = []): array
@@ -103,14 +111,11 @@ class HttpApiClient
 
     protected function getHeaders(): array
     {
-        return [
-            'Authorization' => 'ApiKey ' . $this->apiKey,
-            'Accept' => 'application/json',
-        ];
+        return $this->headers;
     }
 
     protected function buildUrl(string $endpoint): string
     {
-        return rtrim($this->apiUrl, '/') . '/' . ltrim($endpoint, '/');
+        return rtrim($this->baseUrl, '/') . '/' . ltrim($endpoint, '/');
     }
 }
