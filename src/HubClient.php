@@ -29,4 +29,43 @@ class HubClient
             );
         }, $devices);
     }
+
+    public function getDeviceOperations(string $serial): array
+    {
+        $response = $this->httpApiClient->get("/devices/$serial/operations");
+        $operations = $response['data'];
+
+        return array_map(function ($operation) {
+            return new Operation(
+                $operation['id'],
+                $operation['command_class'],
+                $operation['content'],
+                $operation['status'],
+                $operation['created_at'],
+                $operation['executed_at'],
+            );
+        }, $operations);
+    }
+
+    public function rebootDevice(string $serial): bool
+    {
+        return $this->executeDeviceOperation($serial, DeviceOperation::Reboot);
+    }
+
+    public function reloadDevice(string $serial): bool
+    {
+        return $this->executeDeviceOperation($serial, DeviceOperation::Reload);
+    }
+
+    public function executeDeviceOperation(string $serial, DeviceOperation $operation): bool
+    {
+        $operation_ = $operation->value;
+        $response = $this->httpApiClient->post("/devices/$serial/operations/$operation_");
+
+        if ($response['data'] === 'Operation enqueued') {
+            return true;
+        }
+
+        return false;
+    }
 }
