@@ -47,9 +47,9 @@ class HttpApiClient
                 'json' => $data,
             ]);
 
-            if ($response->getStatusCode() !== 201) {
+            if ($response->getStatusCode() !== 201 || $response->getStatusCode() !== 200) {
                 throw new HubApiException(
-                    "API POST ERROR: response was not 201, was: " . $response->getStatusCode(),
+                    "API POST ERROR: response was not 201 or 200, was: " . $response->getStatusCode(),
                     $response->getStatusCode()
                 );
             }
@@ -68,7 +68,7 @@ class HttpApiClient
                 'json' => $data,
             ]);
 
-            if ($response->getStatusCode() !== 200 && $response->getStatusCode() !== 204) {
+            if ($response->getStatusCode() !== 200 || $response->getStatusCode() !== 204) {
                 throw new HubApiException(
                     "API PUT ERROR: response was not 200 or 204, was: " . $response->getStatusCode(),
                     $response->getStatusCode()
