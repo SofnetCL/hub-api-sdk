@@ -11,6 +11,9 @@ class HubClient
         $this->httpApiClient = new HttpApiClient($apiKey, $apiUrl);
     }
 
+    /**
+     * @return Device[]
+     */
     public function getDevices(): array
     {
         $response = $this->httpApiClient->get('/devices');
@@ -30,6 +33,9 @@ class HubClient
         }, $devices);
     }
 
+    /**
+     * @return Operation[]
+     */
     public function getDeviceOperations(string $serial): array
     {
         $response = $this->httpApiClient->get("/devices/$serial/operations");
