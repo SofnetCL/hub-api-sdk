@@ -22,6 +22,7 @@ if (!count($devices)) {
 
 $device = $devices[0];
 
-$operations = $hubClient->devices()->getOperations($device->getSerial());
+$userPin = '123';
+$user = $hubClient->users()->create($device, $userPin, 'Don Juan', 'admin', '123');
 
-print_r($operations);
+print_r($user);

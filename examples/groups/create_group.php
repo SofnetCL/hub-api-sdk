@@ -13,15 +13,9 @@ $apiKey = $keyResponse['key'];
 
 $hubClient = new HubSdk\HubClient($apiKey, $hubApiUrl);
 
-$devices = $hubClient->devices()->all();
+$groups = $hubClient->groups()->create(
+    code: 'group1',
+    name: 'Group 1',
+);
 
-if (!count($devices)) {
-    echo "No devices found \n";
-    die();
-}
-
-$device = $devices[0];
-
-$operations = $hubClient->devices()->getOperations($device->getSerial());
-
-print_r($operations);
+print_r($groups);

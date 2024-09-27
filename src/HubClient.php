@@ -2,6 +2,10 @@
 
 namespace HubSdk;
 
+use HubSdk\Domains\Group;
+use HubSdk\Domains\Device;
+use HubSdk\Domains\User;
+
 class HubClient
 {
     private HttpApiClient $httpApiClient;
@@ -15,67 +19,18 @@ class HubClient
         $this->httpApiClient->setBaseUrl($apiUrl);
     }
 
-    /**
-     * @return Device[]
-     */
-    public function getDevices(): array
+    public function groups(): Group
     {
-        $response = $this->httpApiClient->get('/devices');
-        $devices = $response['data'];
-
-        return array_map(function ($device) {
-            return new Device(
-                $device['serial'],
-                $device['alias'],
-                $device['model'],
-                $device['group'],
-                $device['push_version'],
-                $device['firmware_version'],
-                $device['timezone'],
-                $device['status'],
-            );
-        }, $devices);
+        return new Group($this->httpApiClient);
     }
 
-    /**
-     * @return Operation[]
-     */
-    public function getDeviceOperations(string $serial): array
+    public function devices(): Device
     {
-        $response = $this->httpApiClient->get("/devices/$serial/operations");
-        $operations = $response['data'];
-
-        return array_map(function ($operation) {
-            return new Operation(
-                $operation['id'],
-                $operation['command_class'],
-                $operation['content'],
-                $operation['status'],
-                $operation['created_at'],
-                $operation['executed_at'],
-            );
-        }, $operations);
+        return new Device($this->httpApiClient);
     }
 
-    public function rebootDevice(string $serial): bool
+    public function users(): User
     {
-        return $this->executeDeviceOperation($serial, DeviceOperation::Reboot);
-    }
-
-    public function reloadDevice(string $serial): bool
-    {
-        return $this->executeDeviceOperation($serial, DeviceOperation::Reload);
-    }
-
-    public function executeDeviceOperation(string $serial, DeviceOperation $operation): bool
-    {
-        $operation_ = $operation->value;
-        $response = $this->httpApiClient->post("/devices/$serial/operations/$operation_");
-
-        if ($response['data'] === 'Operation enqueued') {
-            return true;
-        }
-
-        return false;
+        return new User($this->httpApiClient);
     }
 }
