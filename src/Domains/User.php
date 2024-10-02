@@ -5,7 +5,6 @@ namespace HubSdk\Domains;
 use HubSdk\Device;
 use HubSdk\User as UserEntity;
 use HubSdk\HttpApiClient;
-use HubSdk\Operation;
 
 class User
 {

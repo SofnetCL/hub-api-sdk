@@ -4,6 +4,7 @@ namespace HubSdk\Domains;
 
 use HubSdk\Group as GroupEntity;
 use HubSdk\HttpApiClient;
+use HubSdk\UserPrivilege;
 
 class Group
 {
@@ -84,11 +85,23 @@ class Group
         return $responseMessage === 'Group updated';
     }
 
-    public function addUser(string $code, string $pin): bool
-    {
-        $response = $this->httpApiClient->post("groups/$code/users", [
+    public function addUser(
+        string $groupCode,
+        string $pin,
+        string $name,
+        string $password = null,
+        UserPrivilege $privilege = UserPrivilege::USER
+    ): bool {
+        $data = [
             'pin' => $pin,
-        ]);
+            'name' => $name,
+            'password' => $password,
+            'privilege' => $privilege->value,
+        ];
+
+        $data = array_filter($data, fn($value) => $value !== null && $value !== '');
+
+        $response = $this->httpApiClient->post("groups/$groupCode/users", $data);
 
         $responseMessage = $response['message'] ?? '';
 
